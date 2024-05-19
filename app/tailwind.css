@@ -3,13 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --primary-dark: rgba(31, 41, 55, var(--tw-bg-opacity));
+  --primary-light: #ffffff;
+  --primary-dark: #1f2937;
+  --button-bg-light: #e2e8f0;
+  --button-bg-dark: #4b5563;
+  --button-text-light: #000000;
+  --button-text-dark: #ffffff;
+  --button-bg-hover-light: #cbd5e1;
+  --button-bg-hover-dark: #374151;
+  --button-text-hover: #ffffff;
   user-select: none;
 }
 
 @layer base {
   html, body {
     font-family: 'Lato', sans-serif;
+    background-color: var(--primary-light);
+    color: rgba(31, 41, 55, var(--tw-text-opacity));
   }
 
   .dark {
@@ -22,6 +32,23 @@
 
   h2 {
     @apply text-xl md:text-xl lg:text-xl;
+  }
+
+  .button {
+    @apply px-4 py-2 mx-1 rounded-md shadow-md font-semibold transition-colors duration-300;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+  }
+
+  .button:hover {
+    background-color: var(--button-bg-hover);
+    color: var(--button-text-hover);
+  }
+
+  .button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+    background-color: var(--button-disabled);
+    color: var(--button-disabled-text);
   }
 }
 

@@ -36,10 +36,12 @@ export default function WorkoutIndexRoute() {
   }
 
   return (
-    <div className='p-8'>
+    <div className='p-8 h-screen'>
       {workoutExercises.length === 0 && (
-        <div className='text-center mt-8'>
-          <p className='text-xl'>No exercises selected for workout</p>
+        <div className='flex items-center justify-center h-full'>
+          <div>
+            <p className='text-xl h-full'>No exercises selected for workout</p>
+          </div>
         </div>
       )}
       {workoutExercises.length > 0 && (
