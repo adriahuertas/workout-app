@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-dark: rgba(31, 41, 55, var(--tw-bg-opacity));
+  user-select: none;
+}
+
+@layer base {
+  html, body {
+    font-family: 'Lato', sans-serif;
+  }
+
+  .dark {
+    --primary-dark: rgba(31, 41, 55, var(--tw-bg-opacity));
+    --tw-bg-opacity: 1;
+    background-color: var(--primary-dark);
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+
+  h2 {
+    @apply text-xl md:text-xl lg:text-xl;
+  }
+}
+
+@keyframes spin-continuous {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-30deg);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+}
+
+.flag-animation {
+  animation: spin-continuous 2s infinite linear;
+}
