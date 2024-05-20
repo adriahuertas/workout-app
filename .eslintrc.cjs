@@ -30,12 +30,14 @@ module.exports = {
       files: ["**/*.{js,jsx,ts,tsx}"],
       plugins: ["react", "jsx-a11y"],
       extends: [
+        "standard",
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
       ],
       rules: {
+        "space-before-function-paren": "off",
         "react/no-unescaped-entities": "off"
       },
       settings: {

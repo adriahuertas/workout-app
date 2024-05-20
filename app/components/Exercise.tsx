@@ -1,6 +1,7 @@
-import { Link } from '@remix-run/react'
+import { Link, useNavigate } from '@remix-run/react'
 import { useExercises } from '~/context/ExerciseContext'
 import AddIcon from '~/icons/AddIcon'
+import GoBackIcon from '~/icons/GoBackIcon'
 import RemoveIcon from '~/icons/RemoveIcon'
 import { IExercise } from '~/types'
 
@@ -11,7 +12,7 @@ interface IExerciseProps {
 
 const Exercise = ({ mode, exercise }: IExerciseProps) => {
   const { setExercises } = useExercises()
-
+  const navigate = useNavigate()
   const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
@@ -24,12 +25,17 @@ const Exercise = ({ mode, exercise }: IExerciseProps) => {
     )
   }
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   // Check if exercises is on the path
   const isExercise =
     typeof window !== 'undefined' &&
     window.location.pathname.includes('exercises')
 
-  return mode === 'preview' ? (
+  return mode === 'preview'
+    ? (
     <div className='relative flex flex-col bg-white p-4 rounded-xl shadow-custom-light dark:bg-primary-dark dark:text-white dark:shadow-custom-dark hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300'>
       <Link to={`/exercises/${exercise.id}`}>
         <h2 className='flex-grow font-semibold mb-2 text-center overflow-ellipsis overflow-hidden whitespace-nowrap'>
@@ -55,7 +61,8 @@ const Exercise = ({ mode, exercise }: IExerciseProps) => {
         </div>
       </button>
     </div>
-  ) : (
+      )
+    : (
     <>
       <h1 className='text-4xl font-bold mb-8 text-center'>
         {capitalize(exercise.name)}
@@ -69,18 +76,30 @@ const Exercise = ({ mode, exercise }: IExerciseProps) => {
 
         <div className='flex flex-col lg:w-1/2'>
           {isExercise && (
-            <button
-              className='text-left px-4 py-2 mb-5 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 transition-colors duration-300'
-              onClick={handleClick}
-            >
-              <div className='flex items-center justify-center'>
-                {exercise.isSelected ? <RemoveIcon /> : <AddIcon />}
-                <span className='ml-2 md:inline-block'>
-                  {exercise.isSelected ? 'Remove' : 'Add'}
-                </span>
-              </div>
-            </button>
+            <div className='grid grid-cols-2 justify-center gap-5'>
+              <button
+                className='col-span-1 text-left flex-grow px-4 py-2 mb-5 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 transition-colors duration-300'
+                onClick={handleClick}
+              >
+                <div className='flex items-center justify-center'>
+                  {exercise.isSelected ? <RemoveIcon /> : <AddIcon />}
+                  <span className='ml-2 md:inline-block'>
+                    {exercise.isSelected ? 'Remove' : 'Add'}
+                  </span>
+                </div>
+              </button>
+              <button
+                className='col-span-1  flex-grow  px-4 py-2 mb-5 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 transition-colors duration-300'
+                onClick={handleBack}
+              >
+                <div className='flex justify-center items-center gap-3'>
+                  <GoBackIcon />
+                  Go Back
+                </div>
+              </button>
+            </div>
           )}
+
           <div className='mb-2 text-md md:text-lg'>
             <strong>Instructions:</strong>
             <ol>
@@ -109,7 +128,7 @@ const Exercise = ({ mode, exercise }: IExerciseProps) => {
         </div>
       </div>
     </>
-  )
+      )
 }
 
 export default Exercise

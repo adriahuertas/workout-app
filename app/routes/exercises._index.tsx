@@ -1,8 +1,11 @@
+import { useSearchParams } from '@remix-run/react'
 import { useState } from 'react'
 import Exercise from '~/components/Exercise'
+import Filter from '~/components/Filter'
 import { useExercises } from '~/context/ExerciseContext'
 import PaginationNextIcon from '~/icons/PaginationNextIcon'
 import PaginationPrevious from '~/icons/PaginationPreviousIcon'
+import { filterExercises } from '~/utils/filterExercises'
 
 const ExercisesIndexRoute = () => {
   const [showSelectedExercises, setShowSelectedExercises] = useState(false)
@@ -24,9 +27,11 @@ const ExercisesIndexRoute = () => {
     setCurrentPage(1)
   }
 
+  const [searchParams] = useSearchParams()
+
   const filteredExercises = showSelectedExercises
     ? exercises.filter((exercise) => exercise.isSelected)
-    : exercises.filter((exercise) => !exercise.isSelected)
+    : filterExercises(searchParams, exercises.filter((exercise) => !exercise.isSelected))
 
   const totalPages = Math.ceil(filteredExercises.length / exercisesPerPage)
 
@@ -36,10 +41,10 @@ const ExercisesIndexRoute = () => {
   )
 
   return (
-    <div className='p-8'>
-      <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mb-8'>
+    <div className='p-4 sm:p-8 sm:py-16'>
+      <div className='grid md:grid-cols-3 grid-cols-1 '>
         <div className='col-span-1'></div>
-        <h1 className='col-span-1 text-4xl font-bold text-center pb-8 md:pb-0'>
+        <h1 className='col-span-1 text-4xl font-bold text-center pb-8 '>
           Exercises
         </h1>
         <div className='col-span-1 flex justify-center'>
@@ -53,6 +58,7 @@ const ExercisesIndexRoute = () => {
           </button>
         </div>
       </div>
+      <Filter />
       {currentExercises.length !== 0 && (
         <div className='flex justify-center mt-8 mb-5'>
           <button

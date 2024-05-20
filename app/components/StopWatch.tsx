@@ -1,6 +1,7 @@
 import PauseIcon from '~/icons/PauseIcon'
 import ResetIcon from '~/icons/ResetIcon'
 import StartIcon from '~/icons/StartIcon'
+import { formatTimeWorkout } from '~/utils/formatTime'
 
 interface IStopWatchProps {
   time: number
@@ -11,14 +12,7 @@ interface IStopWatchProps {
 }
 
 const StopWatch = ({ time, start, pause, reset, status }: IStopWatchProps) => {
-  const hours = Math.floor(time / 3600)
-  const minutes = Math.floor((time % 3600) / 60)
-  const seconds = time % 60
-
-  const formattedHours = String(hours).padStart(2, '0')
-  const formattedMinutes = String(minutes).padStart(2, '0')
-  const formattedSeconds = String(seconds).padStart(2, '0')
-
+  const formattedTime = formatTimeWorkout(time)
   return (
     <div className='flex flex-col items-center mb-5'>
       <div className='flex justify-between w-full'>
@@ -46,7 +40,7 @@ const StopWatch = ({ time, start, pause, reset, status }: IStopWatchProps) => {
         </button>
       </div>
       <span className=' text-lg font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded-md mt-5 pl-3 pr-3'>
-        {formattedHours}:{formattedMinutes}:{formattedSeconds}
+        {formattedTime}
       </span>
     </div>
   )
