@@ -1,6 +1,7 @@
 import { Link } from '@remix-run/react'
 import { useEffect, useState } from 'react'
 import { useExercises } from '~/context/ExerciseContext'
+import CloseMenuIcon from '~/icons/CloseMenuIcon'
 import MenuIcon from '~/icons/MenuIcon'
 import MoonIcon from '~/icons/MoonIcon'
 import SunIcon from '~/icons/SunIcon'
@@ -53,24 +54,26 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
             }
           >
             <button
-              className='sm:hidden order-2 p-3'
+              className='sm:hidden order-2 p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark hover:bg-button-bg-hover-light dark:hover:bg-button-bg-hover-dark transition-colors duration-300'
               onClick={() => setOpenMenu(!openMenu)}
             >
-              <MenuIcon />
+              {openMenu ? <CloseMenuIcon /> : <MenuIcon />}
             </button>
             <div
-              className={`flex flex-col flex-grow items-center sm:flex-row sm:justify-end order-1 ${
+              className={`flex flex-col flex-grow items-center sm:flex-row sm:justify-end order-1 sm:flex ${
                 openMenu ? 'block' : 'hidden'
               }`}
             >
               <Link
                 to='/exercises'
+                onClick={() => setOpenMenu(false)}
                 className='text-2xl  font-bold p-4 flex-grow-0 text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
               >
                 Exercises
               </Link>
               <Link
                 to='/workout'
+                onClick={() => setOpenMenu(false)}
                 className='text-2xl font-bold p-4 flex-grow-0 relative text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
               >
                 Workout
@@ -82,6 +85,7 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
               </Link>
               <Link
                 to='/workout/results'
+                onClick={() => setOpenMenu(false)}
                 className='text-2xl font-bold p-4 flex-grow-0 relative text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
               >
                 Results
