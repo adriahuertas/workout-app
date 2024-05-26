@@ -17,7 +17,7 @@ export async function fetchExercises(): Promise<IExercise[] | null> {
     return null
   }
 
-  const url = `${apiUrl}?limit=100`
+  const url = `${apiUrl}?limit=9999`
   const options = {
     method: 'GET',
     headers: {

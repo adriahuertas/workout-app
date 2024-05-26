@@ -95,9 +95,9 @@ export default function WorkoutIndexRoute() {
   return (
     <div className='p-4 sm:p-8  h-screen'>
       {workoutExercises.length === 0 && (
-        <div className='flex items-center justify-center h-full'>
+        <div className='flex justify-center h-full'>
           <div>
-            <p className='text-xl h-full'>No exercises selected for workout</p>
+            <p className='h-full text-2xl semibold'>Select some exercises to start the workout</p>
           </div>
         </div>
       )}
@@ -106,8 +106,8 @@ export default function WorkoutIndexRoute() {
           <div className='flex flex-col items-center justify-center'>
             <div className='text-sm text-center p-5 rounded-full'>
               <div
-                className='bg-gray-200 rounded-full flex items-center justify-center dark:bg-gray-700 '
-                style={{ width: '56px', height: '56px' }}
+                className='bg-gray-200 rounded-full p-2 flex items-center justify-center dark:bg-gray-700 '
+
               >
                 <span>
                   {currentExercise + 1} / {workoutExercises.length}

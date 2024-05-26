@@ -14,6 +14,21 @@ export interface IExercise extends IExerciseFromApi {
   seconds: number
 }
 
+export interface IWorkoutExercise {
+  exerciseId: string
+  seconds: number
+}
+
+export interface IWorkout {
+  userId: string
+  workoutExercises: IWorkoutExercise[]
+  date: string
+}
+
+export interface IWorkoutFromDB extends IWorkout {
+  id: string
+}
+
 export enum Equipment {
   Assisted = 'assisted',
   Band = 'band',

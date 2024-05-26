@@ -44,7 +44,7 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
         <div className={`px-4 py-2 flex justify-start ${openMenu ? 'items-start' : 'items-center'} sm:items-center`}>
           <button
             onClick={toggleTheme}
-            className='p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark hover:bg-button-bg-hover-light dark:hover:bg-button-bg-hover-dark transition-colors duration-300'
+            className='p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark  transition-colors duration-300'
           >
             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
           </button>
@@ -54,7 +54,7 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
             }
           >
             <button
-              className='sm:hidden order-2 p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark hover:bg-button-bg-hover-light dark:hover:bg-button-bg-hover-dark transition-colors duration-300'
+              className='sm:hidden order-2 p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark transition-colors duration-300'
               onClick={() => setOpenMenu(!openMenu)}
             >
               {openMenu ? <CloseMenuIcon /> : <MenuIcon />}
@@ -67,14 +67,14 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
               <Link
                 to='/exercises'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl  font-bold p-4 flex-grow-0 text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
+                className='text-2xl  font-bold p-4 sm:py-0 flex-grow-0 text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Exercises
               </Link>
               <Link
                 to='/workout'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl font-bold p-4 flex-grow-0 relative text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Workout
                 {numSelectedExercises > 0 && (
@@ -86,9 +86,16 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
               <Link
                 to='/workout/results'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl font-bold p-4 flex-grow-0 relative text-primary-dark hover:text-black hover:bg-gray-200 dark:text-primary-light dark:hover:text-button-text-hover dark:hover:bg-gray-600 rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Results
+              </Link>
+              <Link
+                to='/history'
+                onClick={() => setOpenMenu(false)}
+                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
+              >
+                History
               </Link>
             </div>
           </div>
