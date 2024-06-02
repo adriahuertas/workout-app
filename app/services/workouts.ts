@@ -1,9 +1,19 @@
 import { IWorkout, IWorkoutExercise, IWorkoutFromDB } from '~/types'
 import { db } from '~/utils/db.server'
 import { getUserByEmail } from './users'
+import { getUserSession } from '~/utils/sessions.server'
+import { redirect } from '@remix-run/node'
 
-export async function getWorkouts() {
-  const querySnapshot = await db.collection('workouts').get()
+export async function getWorkouts(request: Request) {
+  const userSession = await getUserSession(request)
+  console.log(userSession)
+  if (!userSession) {
+    return redirect('/login')
+  }
+  const querySnapshot = await db
+    .collection('workouts')
+    .where('userId', '==', userSession.email)
+    .get()
 
   const data: IWorkoutFromDB[] = []
 
@@ -19,14 +29,17 @@ export async function getWorkouts() {
   return data
 }
 
-export async function createWorkout(workout: IWorkout) {
-  if (!workout.userId) {
+export async function createWorkout(request: Request, workout: IWorkout) {
+  const userSession = await getUserSession(request)
+  console.log(userSession)
+  if (!userSession) {
+    return redirect('/login')
+  }
+  if (!userSession.email) {
     throw new Error('User ID is required')
   }
-  const user = await getUserByEmail(workout.userId)
-  if (!user) {
-    throw new Error('User not found')
-  }
+  workout.userId = userSession.email
+
   const docRef = await db.collection('workouts').add(workout)
   return docRef.id
 }

@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 import { useEffect, useState } from 'react'
 import { useExercises } from '~/context/ExerciseContext'
 import CloseMenuIcon from '~/icons/CloseMenuIcon'
@@ -9,9 +9,10 @@ import SunIcon from '~/icons/SunIcon'
 interface INavbarProps {
   theme: string
   setTheme: React.Dispatch<React.SetStateAction<string>>
+  userEmail: string | undefined
 }
 
-const Navbar = ({ theme, setTheme }: INavbarProps) => {
+const Navbar = ({ theme, setTheme, userEmail }: INavbarProps) => {
   const { exercises } = useExercises()
   const [openMenu, setOpenMenu] = useState(false)
 
@@ -38,43 +39,49 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
     (exercise) => exercise.isSelected
   ).length
 
+  const userInitial = userEmail ? userEmail.charAt(0).toUpperCase() : ''
+
   return (
     <header className='z-10 fixed top-0 w-full shadow-md bg-primary-light dark:bg-primary-dark'>
       <nav className='z-10 p-2'>
-        <div className={`px-4 py-2 flex justify-start ${openMenu ? 'items-start' : 'items-center'} sm:items-center`}>
+        <div
+          className={`px-4 py-2 flex justify-start ${
+            openMenu ? 'items-start' : 'items-center'
+          } md:items-center`}
+        >
           <button
             onClick={toggleTheme}
-            className='p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark  transition-colors duration-300'
+            className='p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark transition-colors duration-300'
           >
             {theme === 'light' ? <MoonIcon /> : <SunIcon />}
           </button>
           <div
-            className={
-              `flex flex-grow ${openMenu ? 'items-start' : 'items-center'} sm:flex-row justify-end`
-            }
+            className={`flex flex-grow ${
+              openMenu ? 'items-start' : 'items-center'
+            } md:flex-row justify-end`}
           >
             <button
-              className='sm:hidden order-2 p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark transition-colors duration-300'
+              className='md:hidden order-2 p-3 rounded-full bg-button-bg-light text-button-text-light dark:bg-button-bg-dark dark:text-button-text-dark transition-colors duration-300'
               onClick={() => setOpenMenu(!openMenu)}
             >
               {openMenu ? <CloseMenuIcon /> : <MenuIcon />}
             </button>
             <div
-              className={`flex flex-col flex-grow items-center sm:flex-row sm:justify-end order-1 sm:flex ${
+              className={`flex flex-col flex-grow items-center md:flex-row md:justify-end order-1 md:flex ${
                 openMenu ? 'block' : 'hidden'
               }`}
             >
               <Link
                 to='/exercises'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl  font-bold p-4 sm:py-0 flex-grow-0 text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 md:py-0 flex-grow-0 text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Exercises
               </Link>
               <Link
                 to='/workout'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Workout
                 {numSelectedExercises > 0 && (
@@ -86,17 +93,43 @@ const Navbar = ({ theme, setTheme }: INavbarProps) => {
               <Link
                 to='/workout/results'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 Results
               </Link>
               <Link
                 to='/history'
                 onClick={() => setOpenMenu(false)}
-                className='text-2xl font-bold p-4 sm:py-0 flex-grow-0 relative text-primary-dark  dark:text-primary-light rounded-full transition-colors duration-300'
+                className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
               >
                 History
               </Link>
+              {!userEmail && (
+                <Link
+                  to='/login'
+                  onClick={() => setOpenMenu(false)}
+                  className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
+                >
+                  Login
+                </Link>
+              )}
+              {userEmail && (
+                <Form method='POST'>
+                  <button
+                    onClick={() => setOpenMenu(false)}
+                    className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'
+                  >
+                    Sign out
+                  </button>
+                </Form>
+              )}
+              {userEmail && (
+                <div className='text-2xl font-bold p-4 md:py-0 flex-grow-0 relative text-primary-dark dark:text-primary-light rounded-full transition-colors duration-300'>
+                  <div className='w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center'>
+                    {userInitial}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

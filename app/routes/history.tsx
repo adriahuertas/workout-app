@@ -17,8 +17,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return redirect('/history')
 }
 
-export const loader = () => {
-  const workouts = getWorkouts()
+export const loader = ({ request }: ActionFunctionArgs) => {
+  const workouts = getWorkouts(request)
 
   return workouts
 }
@@ -48,6 +48,15 @@ const HistoryRoute = () => {
     )
   }
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+  }
+
   return workouts !== undefined
     ? (
     <div className='p-4 sm:p-8 sm:py-16'>
@@ -58,16 +67,16 @@ const HistoryRoute = () => {
             key={workout.id}
             className={`p-4 ${
               index !== workouts.length - 1 ? 'border-b border-gray-500' : ''
-            }` }
+            }`}
           >
             <div className='flex justify-between items-center'>
               <div className='flex items-center gap-4'>
                 <h2 className='text-xl font-semibold inline'>
-                  {new Date(workout.date).toLocaleDateString()}
+                  {formatDate(workout.date)}
                 </h2>
-                <Form method="DELETE" className="inline">
-                  <input type="hidden" name="workoutId" value={workout.id} />
-                  <button className='p-2 dark:bg-slate-700 rounded-full'>
+                <Form method='DELETE' className='inline'>
+                  <input type='hidden' name='workoutId' value={workout.id} />
+                  <button className='p-2 dark:bg-slate-700 bg-gray-200 rounded-lg'>
                     <DeleteIcon />
                   </button>
                 </Form>

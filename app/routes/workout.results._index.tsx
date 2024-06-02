@@ -1,16 +1,22 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
-import { Form } from '@remix-run/react'
+import { Form, useLoaderData } from '@remix-run/react'
 import { useExercises } from '~/context/ExerciseContext'
 import { createWorkout } from '~/services/workouts'
 import { IWorkout } from '~/types'
 import { formatTimeResults } from '~/utils/formatTime'
+import { getUserSession } from '~/utils/sessions.server'
 
 export const action = async ({ request }:ActionFunctionArgs) => {
+  const userSession = getUserSession(request)
+  if (!userSession) {
+    return redirect('/login')
+  }
   const formData = await request.formData()
   const stringifyWorkout = formData.get('workoutExercises')
   const workout = typeof stringifyWorkout === 'string' ? JSON.parse(stringifyWorkout) : null
+
   if (workout && workout.workoutExercises?.length > 0) {
-    await createWorkout(workout)
+    await createWorkout(request, workout)
     return redirect('/history')
   } else console.log('No exercises selected')
   return null
